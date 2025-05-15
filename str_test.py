@@ -60,6 +60,10 @@ def Home():
     except:
         st.warning("Una vez subas el archivo, aquí se mostrarán sus datos")
 
+    if "text_body_" in st.session_state:
+        if st.session_state["text_body_"] != content:
+            st.session_state["text_body_global"] = ""
+
 
 def TextEditor():
 
