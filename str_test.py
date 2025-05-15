@@ -48,9 +48,10 @@ def Home():
         st.session_state["text_body_"] = content
         save_Value("text_body")
         st.warning("Los datos han sido cambiados")
+    
+    st.write(st.session_state["text_body_"])
 
     if "text_body_global" in st.session_state and st.session_state["text_body_global"] == []:
-        st.warning("Peligro")
         st.session_state["text_body_global"] = "Sin datos"
         message = st.session_state["text_body_global"]
         message
@@ -59,7 +60,7 @@ def Home():
         st.write(f"<b>Título del archivo</b>: {title}", unsafe_allow_html=True)
         st.write(f"<b>Tipo de archivo</b>: {type}", unsafe_allow_html=True)
         st.write(
-            f"<b>Contenido en el archivo</b>: {str(st.session_state["text_body_global"])}",
+            f"<b>Contenido en el archivo</b>: {str(st.session_state["text_body_"])}",
             unsafe_allow_html=True,
         )
         load_Value(st.session_state["valor_global"], True)
