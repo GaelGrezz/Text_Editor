@@ -34,11 +34,9 @@ def Home():
             title = load_Value(st.session_state["valor_global"].name)
             type = load_Value(st.session_state["valor_global"].type)
             content = load_Value(st.session_state["valor_global"].read())
-            content = content.split()
+            content = content.split();
             
-            if content == []:
-                content = "Este archivo no tiene contenido"
-
+            
         except:
             st.warning("Suba algún archivo para comenzar")
 
@@ -77,7 +75,6 @@ def Home():
                 st.session_state["text_body_"] = "Este archivo no tiene contenido"
     except:
         st.session_state["text_body_"] = "Este archivo no tiene contenido"
-        st.write("He accedido")
         return 0
 
 def TextEditor():
