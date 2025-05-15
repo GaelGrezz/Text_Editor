@@ -21,55 +21,59 @@ def load_Value(value, section=False):
 
 def Home():
     st.title("Home")
-    file = st.file_uploader(
-        "Selecciona un archivo",
-        key="valor_",
-        on_change=lambda: save_Value("valor"),
-        type=["csv", "txt", "xlsx"],
-    )
-
     try:
-        title = load_Value(st.session_state["valor_global"].name)
-        type = load_Value(st.session_state["valor_global"].type)
-        content = load_Value(st.session_state["valor_global"].read())
-        content = content.split()
+        file = st.file_uploader(
+            "Selecciona un archivo",
+            key="valor_",
+            on_change=lambda: save_Value("valor"),
+            type=["csv", "txt", "xlsx"],
+        )
 
-    except:
-        st.warning("Suba algún archivo para comenzar")
-
-    if "text_body_" not in st.session_state:
         try:
+            title = load_Value(st.session_state["valor_global"].name)
+            type = load_Value(st.session_state["valor_global"].type)
+            content = load_Value(st.session_state["valor_global"].read())
+            content = content.split()
+
+        except:
+            st.warning("Suba algún archivo para comenzar")
+
+        if "text_body_" not in st.session_state:
+            try:
+                st.session_state["text_body_"] = content
+                save_Value("text_body")
+                st.warning("Se ha guardado con éxito los datos")
+            except:
+                return 0
+        elif "text_body_" in st.session_state and content:
             st.session_state["text_body_"] = content
             save_Value("text_body")
-            st.warning("Se ha guardado con éxito los datos")
+            st.warning("Los datos han sido cambiados")
+        
+
+        if "text_body_global" in st.session_state and st.session_state["text_body_global"] == []:
+            st.session_state["text_body_global"] = "Sin datos"
+            message = st.session_state["text_body_global"]
+            message
+        try:
+            st.write("### Archivo seleccionado: ")
+            st.write(f"<b>Título del archivo</b>: {title}", unsafe_allow_html=True)
+            st.write(f"<b>Tipo de archivo</b>: {type}", unsafe_allow_html=True)
+            st.write(
+                f"<b>Contenido en el archivo</b>: {str(st.session_state["text_body_"])}",
+                unsafe_allow_html=True,
+            )
+            load_Value(st.session_state["valor_global"], True)
         except:
-            return 0
-    elif "text_body_" in st.session_state and content:
-        st.session_state["text_body_"] = content
-        save_Value("text_body")
-        st.warning("Los datos han sido cambiados")
-    
+            st.warning("Una vez subas el archivo, aquí se mostrarán sus datos")
 
-    if "text_body_global" in st.session_state and st.session_state["text_body_global"] == []:
-        st.session_state["text_body_global"] = "Sin datos"
-        message = st.session_state["text_body_global"]
-        message
-    try:
-        st.write("### Archivo seleccionado: ")
-        st.write(f"<b>Título del archivo</b>: {title}", unsafe_allow_html=True)
-        st.write(f"<b>Tipo de archivo</b>: {type}", unsafe_allow_html=True)
-        st.write(
-            f"<b>Contenido en el archivo</b>: {str(st.session_state["text_body_"])}",
-            unsafe_allow_html=True,
-        )
-        load_Value(st.session_state["valor_global"], True)
+        if "text_body_" in st.session_state:
+            if st.session_state["text_body_global"] != content:
+                st.session_state["text_body_"] = "Este archivo no tiene contenido"
     except:
-        st.warning("Una vez subas el archivo, aquí se mostrarán sus datos")
-
-    if "text_body_" in st.session_state:
-        if st.session_state["text_body_global"] != content:
-            st.session_state["text_body_"] = "Este archivo no tiene contenido"
-
+        st.session_state["text_body_"] = "Este archivo no tiene contenido"
+        st.write("He accedido")
+        return 0
 
 def TextEditor():
 
