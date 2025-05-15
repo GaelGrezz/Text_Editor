@@ -21,6 +21,7 @@ def load_Value(value, section=False):
 
 def Home():
     st.title("Home")
+    alert = False
     try:
         file = st.file_uploader(
             "Selecciona un archivo",
@@ -34,6 +35,9 @@ def Home():
             type = load_Value(st.session_state["valor_global"].type)
             content = load_Value(st.session_state["valor_global"].read())
             content = content.split()
+            
+            if content == []:
+                content = "Este archivo no tiene contenido"
 
         except:
             st.warning("Suba algún archivo para comenzar")
@@ -53,8 +57,9 @@ def Home():
 
         if "text_body_global" in st.session_state and st.session_state["text_body_global"] == []:
             st.session_state["text_body_global"] = "Sin datos"
+            alert = True
             message = st.session_state["text_body_global"]
-            message
+            
         try:
             st.write("### Archivo seleccionado: ")
             st.write(f"<b>Título del archivo</b>: {title}", unsafe_allow_html=True)
