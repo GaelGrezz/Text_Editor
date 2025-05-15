@@ -60,6 +60,12 @@ def Home():
 
 
 def TextEditor():
+    from docx import Document
+    from io import BytesIO
+
+    valid_formt = ["csv", "txt"]
+    word_format = ["docx"]
+
     st.title("TexDitor")
     if "valor_global" not in st.session_state:
         st.warning("Ingrese algún archivo desde la pestaña Home")
@@ -79,17 +85,42 @@ def TextEditor():
 
     text = archivo.text_area("Ingrese el contenido que desee en el archivo", key="body")
 
+    formt = archivo.selectbox(
+        "Ingrese el formato que desee", ["csv", "txt", "docx"]
+    ).lower()
+
     submit = archivo.form_submit_button("Aplicar cambios")
 
-    if submit:
-        st.warning("Datos aplicados")
+    if submit and formt in valid_formt:
+        st.warning("Datos aplicados y listos para descargar")
 
-    st.download_button(
-        "Descargar archivo",
-        data=text,
-        file_name=f"{title}.txt",
-        icon=":material/download:",
-    )
+        st.download_button(
+            "Descargar archivo",
+            data=text,
+            file_name=f"{title}.{formt}",
+            icon=":material/download:",
+        )
+
+    elif submit and formt in word_format:
+        st.warning("Ha elegido word")
+
+        doc = Document()
+
+        doc.add_paragraph(text)
+
+        buffer = BytesIO()
+
+        doc.save(buffer)
+
+        buffer.seek(0)
+
+        st.download_button(
+            label="Descargar archivo",
+            data=buffer,
+            file_name=f"{title}.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            icon=":material/download:",
+        )
 
 
 Home = st.Page(page=Home, title="Home", icon=":material/house:", url_path="Home")
