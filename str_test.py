@@ -44,7 +44,7 @@ def Home():
     elif "text_body_" in st.session_state and content or content:
         st.session_state["text_body_"] = content
         save_Value("text_body")
-        st.warning("Los datos han sido cambiados con éxito los datos")
+        st.warning("Los datos han sido cambiados")
 
     try:
         st.write("### Archivo seleccionado: ")
@@ -75,9 +75,9 @@ def TextEditor():
 
     data = load_Value(st.session_state["valor_global"])
 
-    title = archivo.text_input("Ingrese un título", key="title_")
+    title = archivo.text_input("Ingrese el nuevo nombre del archivo", key="title_")
 
-    text = archivo.text_area("Ingrese texto", key="body")
+    text = archivo.text_area("Ingrese el contenido que desee en el archivo", key="body")
 
     submit = archivo.form_submit_button("Aplicar cambios")
 
