@@ -1,4 +1,6 @@
 import streamlit as st
+from docx import Document
+from io import BytesIO
 
 
 def save_Value(key):
@@ -60,8 +62,6 @@ def Home():
 
 
 def TextEditor():
-    from docx import Document
-    from io import BytesIO
 
     valid_formt = ["csv", "txt"]
     word_format = ["docx"]
