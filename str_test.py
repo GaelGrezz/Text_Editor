@@ -49,7 +49,6 @@ def Home():
         save_Value("text_body")
         st.warning("Los datos han sido cambiados")
     
-    st.write(st.session_state["text_body_"])
 
     if "text_body_global" in st.session_state and st.session_state["text_body_global"] == []:
         st.session_state["text_body_global"] = "Sin datos"
