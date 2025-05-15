@@ -4,6 +4,7 @@ import streamlit as st
 def save_Value(key):
     st.session_state[key + "_global"] = st.session_state[key + "_"]
 
+
 def load_Value(value, section=False):
 
     if section:
@@ -40,13 +41,17 @@ def Home():
             st.warning("Se ha guardado con éxito los datos")
         except:
             return 0
+    elif "text_body_" in st.session_state and content or content:
+        st.session_state["text_body_"] = content
+        save_Value("text_body")
+        st.warning("Los datos han sido cambiados con éxito los datos")
 
     try:
         st.write("### Archivo seleccionado: ")
         st.write(f"<b>Título del archivo</b>: {title}", unsafe_allow_html=True)
         st.write(f"<b>Tipo de archivo</b>: {type}", unsafe_allow_html=True)
         st.write(
-            f"<b>Contenido en el archivo</b>: {str(st.session_state["text_body_"])}",
+            f"<b>Contenido en el archivo</b>: {str(st.session_state["text_body_global"])}",
             unsafe_allow_html=True,
         )
         load_Value(st.session_state["valor_global"], True)
@@ -57,11 +62,11 @@ def Home():
 def TextEditor():
     st.title("TexDitor")
     if "valor_global" not in st.session_state:
-        st.warning("Ingrese algún dato en Home")
+        st.warning("Ingrese algún archivo desde la pestaña Home")
         st.page_link(
             page=Home,
             icon=":material/home:",
-            label="Home",
+            label="Ir a Home",
             help="Ve y agrega el archivo que deseas!",
         )
         return 0
